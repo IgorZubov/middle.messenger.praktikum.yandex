@@ -13,4 +13,3 @@ export const mockQuestions = [
     { question: "Have you traveled abroad in the last year?", answer: "Yes" },
     { question: "Do you have any pets?", answer: "Maybe" }
   ];
-  
