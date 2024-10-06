@@ -1,13 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
+    "outDir": "dist",
+    "target": "esnext",
+    "declaration": false,
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
     "sourceMap": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "include": [
-    "src/**/*.ts",
-    ".eslintrc.cjs"
+    "src",
+    "declarations.d.ts"
   ]
 }
