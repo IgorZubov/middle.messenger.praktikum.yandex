@@ -77,6 +77,7 @@ export default class Block {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected componentDidUpdate(oldProps: BlockProps, newProps: BlockProps): boolean {
+    console.log(oldProps, newProps);
     return true;
   }
 
@@ -113,7 +114,7 @@ export default class Block {
     });
   }
 
-  protected setAttributes(attr): void {
+  protected setAttributes(attr: any): void {
     Object.entries(attr).forEach(([key, value]) => {
       if (this._element) {
         this._element.setAttribute(key, value as string);
