@@ -1,1 +1,1 @@
-export default `<p class="error">{{message}}</p>`;
+export default '<p class="error">{{message}}</p>';

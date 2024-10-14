@@ -7,6 +7,14 @@ module.exports = {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
+  overrides: [
+    {
+      files: ['*.js', '*.cjs'],
+      parserOptions: {
+        project: './tsconfig.node.json',
+      },
+    },
+  ],
   plugins: ['@typescript-eslint'],
   extends: [
     'airbnb-typescript',
