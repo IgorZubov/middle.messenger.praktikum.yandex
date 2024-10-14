@@ -1,24 +1,8 @@
-import Handlebars from 'handlebars';
-import * as Pages from './pages';
-import { mockQuestions, mockAnswers } from './mockData.js';
+//@ts-nocheck
+//eslint-disable-next-line
+import * as Pages from './pages/index.js';
 import './helpers/handlebarsHelpers.js';
-
-// Register partials
-import Input from './components/Input.js';
-import Button from './components/Button.js';
-import Select from './components/Select.js';
-import ErrorMessage from './components/ErrorMessage.js';
-import Link from './components/Link.js';
-import Label from './components/Label.js';
-import Footer from './components/Footer.js';
-
-Handlebars.registerPartial('Input', Input);
-Handlebars.registerPartial('Button', Button);
-Handlebars.registerPartial('Select', Select);
-Handlebars.registerPartial('ErrorMessage', ErrorMessage);
-Handlebars.registerPartial('Link', Link);
-Handlebars.registerPartial('Label', Label);
-Handlebars.registerPartial('Footer', Footer);
+import { AnswerPage } from './pages/answerPage/answerPage.js';
 
 export default class App {
   constructor() {
@@ -31,22 +15,12 @@ export default class App {
   }
 
   render() {
-    let template;
     if (this.state.currentPage === 'createQuestionnaire') {
-      template = Handlebars.compile(Pages.CreatePage);
-      this.appElement.innerHTML = template({
-        questions: this.state.questions, 
-        createButtonEnabled: this.state.questions.length == 0,
-      });
-    } else {
-      template = Handlebars.compile(Pages.AnswersPage);
-      this.appElement.innerHTML = template({ 
-        questions: mockQuestions,
-        answers: mockAnswers,
-        answerOptions: ['Yes', 'No', 'Maybe'],
-      });
+      const answerPage = new AnswerPage();
+      console.log(answerPage.getContent());
+      this.appElement.replaceWith(answerPage.getContent());
     }
-    this.attachEventListeners();
+    //this.attachEventListeners();
   }
 
   attachEventListeners() {
