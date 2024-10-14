@@ -46,6 +46,7 @@ export default class Block {
     Object.values(this.children).forEach(child => {child.dispatchComponentDidMount();});
   }
 
+  //eslint-disable-next-line
   componentDidMount(oldProps) {}
 
   dispatchComponentDidMount() {
@@ -60,6 +61,7 @@ export default class Block {
     this._render();
   }
 
+  //eslint-disable-next-line
   componentDidUpdate(oldProps, newProps) {
     return true;
   }
@@ -105,11 +107,13 @@ export default class Block {
   _render() {
     console.log('Render');
     const propsAndStubs = { ...this.props };
+    //eslint-disable-next-line
     const _tmpId =  Math.floor(100000 + Math.random() * 900000);
     Object.entries(this.children).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
 
+    //eslint-disable-next-line
     Object.entries(this.lists).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="__l_${_tmpId}"></div>`;
     });
@@ -123,6 +127,7 @@ export default class Block {
       stub.replaceWith(child.getContent());
     });
 
+    //eslint-disable-next-line
     Object.entries(this.lists).forEach(([key, child]) => {
       const listCont = this._createDocumentElement('template');
       child.forEach(item => {
@@ -152,6 +157,7 @@ export default class Block {
   }
 
   _makePropsProxy(props) {
+    //eslint-disable-next-line
     const self = this;
 
     return new Proxy(props, {

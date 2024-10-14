@@ -1,6 +1,6 @@
 //@ts-nocheck
+//eslint-disable-next-line
 import * as Pages from './pages/index.js';
-import { mockQuestions, mockAnswers } from './mockData.js';
 import './helpers/handlebarsHelpers.js';
 import { AnswerPage } from './pages/answerPage/answerPage.js';
 
