@@ -1,9 +1,8 @@
-//@ts-nocheck
 import { Footer } from '../../components/footer/Footer';
 import Block from '../../framework/Block';
-
 export class AnswerPage extends Block {
   constructor() {
+    
     super({
       Footer: new Footer(),
     });
@@ -12,7 +11,8 @@ export class AnswerPage extends Block {
   override render() {
     return `
     <div class="app">
-        {{{ Footer }}}
+      <h1>Answer Questionnaire</h1>
+      {{{ Footer }}}
     </div>`;
   }
 }

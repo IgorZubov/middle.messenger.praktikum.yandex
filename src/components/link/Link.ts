@@ -1,4 +1,3 @@
-//@ts-nocheck
 import Block from '../../framework/Block';
 
 export class Link extends Block {
@@ -6,7 +5,7 @@ export class Link extends Block {
     super({
       ...props,
       events: {
-        click: (e) => {
+        click: (e: Event) => {
           this.changeStyles();
           props.onClick(e);
         },

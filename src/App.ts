@@ -1,10 +1,17 @@
-//@ts-nocheck
-//eslint-disable-next-line
-import * as Pages from './pages/index.js';
-import './helpers/handlebarsHelpers.js';
-import { AnswerPage } from './pages/answerPage/answerPage.js';
+import './helpers/handlebarsHelpers';
+import { AnswerPage } from './pages/answerPage/answerPage';
+
+interface AppState {
+  currentPage: string;
+  questions: string[];
+  answers: string[];
+}
 
 export default class App {
+  private state: AppState;
+
+  private appElement: HTMLElement | null;
+
   constructor() {
     this.state = {
       currentPage: 'createQuestionnaire',
@@ -14,43 +21,24 @@ export default class App {
     this.appElement = document.getElementById('app');
   }
 
-  render() {
+  render(): string {
     if (this.state.currentPage === 'createQuestionnaire') {
       const answerPage = new AnswerPage();
       console.log(answerPage.getContent());
-      this.appElement.replaceWith(answerPage.getContent());
+      if (this.appElement) {
+        this.appElement.replaceWith(answerPage.getContent());
+      }
     }
-    //this.attachEventListeners();
+    return '';
   }
 
-  attachEventListeners() {
-    if (this.state.currentPage === 'createQuestionnaire') {
-      const addButton = document.getElementById('add-question');
-      const createButton = document.getElementById('create-questionnaire');
-      
-      addButton.addEventListener('click', () => this.addQuestion());
-      createButton.addEventListener('click', () => this.createQuestionnaire());
-    } else {
-      const submitButton = document.getElementById('submit-answers');
-      submitButton.addEventListener('click', () => this.submitAnswers());
-    }
-
-    const footerLinks = document.querySelectorAll('.footer-link');
-    footerLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.changePage(e.target.dataset.page);
-      });
-    });
-  }
-
-  changePage(page) {
+  changePage(page: string): void {
     this.state.currentPage = page;
     this.render();
   }
 
-  addQuestion() {
-    const questionInput = document.getElementById('question-input');
+  addQuestion(): void {
+    const questionInput = document.getElementById('question-input') as HTMLInputElement;
     if (questionInput.value.trim()) {
       this.state.questions.push(questionInput.value);
       questionInput.value = '';
@@ -58,14 +46,14 @@ export default class App {
     }
   }
 
-  createQuestionnaire() {
+  createQuestionnaire(): void {
     if (this.state.questions.length > 0) {
       this.state.currentPage = 'answerQuestionnaire';
       this.render();
     }
   }
 
-  submitAnswers() {
+  submitAnswers(): void {
     alert('Answers submitted!');
   }
 }

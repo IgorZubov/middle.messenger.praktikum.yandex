@@ -1,16 +1,14 @@
-//@ts-nocheck
 import Block from '../../framework/Block';
 import { Link } from '../link/Link';
 
 export class Footer extends Block {
-  constructor(props: any) {
+  constructor() {
     super({
-      ...props,
       LinkCreate: new Link({
         href: '#',
-        datapage:'createQuestionnaire',
-        text:'Create Questionnaire',
-        onClick: (event) => {
+        datapage: 'createQuestionnaire',
+        text: 'Create Questionnaire',
+        onClick: (event: Event) => {
           console.log('CLICK');
           event.preventDefault();
           event.stopPropagation();
@@ -18,16 +16,16 @@ export class Footer extends Block {
       }),
       LinkAnswer: new Link({
         href: '#',
-        datapage:'createQuestionnaire',
-        text:'Create Questionnaire',
+        datapage: 'createQuestionnaire',
+        text: 'Create Questionnaire',
       }),
     });
   }
 
-  override render() {
+  override render(): string {
     return `<footer class="footer">
-  {{{ LinkCreate }}}
-  {{{ LinkAnswer }}}
-</footer>`;
+        {{{ LinkCreate }}}
+        {{{ LinkAnswer }}}
+    </footer>`;
   }
 }
