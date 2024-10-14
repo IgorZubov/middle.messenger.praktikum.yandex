@@ -36,7 +36,7 @@ export default class App {
       template = Handlebars.compile(Pages.CreatePage);
       this.appElement.innerHTML = template({
         questions: this.state.questions, 
-        createButtonEnabled: this.state.questions.length == 0
+        createButtonEnabled: this.state.questions.length == 0,
       });
     } else {
       template = Handlebars.compile(Pages.AnswersPage);
