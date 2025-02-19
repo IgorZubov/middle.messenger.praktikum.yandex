@@ -57,7 +57,6 @@ class Block {
         }
         this._render();
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     componentDidUpdate(oldProps, newProps) {
         console.log(oldProps, newProps);
         return true;
@@ -74,7 +73,6 @@ class Block {
                 lists[key] = value;
             }
             else {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 props[key] = value;
             }
         });
@@ -149,7 +147,6 @@ class Block {
         return this._element;
     }
     _makePropsProxy(props) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
         return new Proxy(props, {
             get(target, prop) {

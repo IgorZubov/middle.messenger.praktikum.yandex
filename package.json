@@ -17,7 +17,7 @@
     "start": "vite build && node server.cjs",
     "preview": "vite preview",
     "lint": "eslint .",
-    "lint:fix": "eslint . --ext .ts --fix",
+    "lint:fix": "eslint . --fix",
     "lint:style": "stylelint \"**/*.pcss\"",
     "lint:style:fix": "stylelint \"**/*.pcss\" --fix",
     "test": "mocha",

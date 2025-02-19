@@ -11,9 +11,7 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
+    "src/**/*.ts",
     "src/**/*.spec.ts"
   ]
 }
