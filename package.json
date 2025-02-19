@@ -29,6 +29,7 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^9.20.1",
     "globals": "^15.15.0",
+    "mocha": "^11.1.0",
     "postcss": "^8.5.2",
     "postcss-preset-env": "^10.1.4",
     "stylelint": "^16.14.1",
