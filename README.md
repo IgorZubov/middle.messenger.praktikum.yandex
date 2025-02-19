@@ -18,6 +18,7 @@
 ### На веб-приложение:
 
 Netlify: https://questionnaire-njkadsfh.netlify.app
+Githubpages:
 
 ### На сверстанные макеты:
 
