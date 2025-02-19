@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 export type EventCallback = (...args: any[]) => void;
 
 export default class EventBus {
