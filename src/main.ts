@@ -12,6 +12,7 @@ interface AppEntry {
 const apps: Record<string, AppEntry> = {
   sprint1: { title: 'Sprint 1 · partials', load: () => import('./legacy/App.js') },
   formLite: { title: 'Block · no children', load: () => import('./demos/AppWithFormLite') },
+  form: { title: 'Block · child components', load: () => import('./demos/AppWithForm') },
 };
 
 const DEFAULT_APP = 'sprint1';
