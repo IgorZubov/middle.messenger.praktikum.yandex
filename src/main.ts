@@ -13,9 +13,10 @@ const apps: Record<string, AppEntry> = {
   sprint1: { title: 'Sprint 1 · partials', load: () => import('./legacy/App.js') },
   formLite: { title: 'Block · no children', load: () => import('./demos/AppWithFormLite') },
   form: { title: 'Block · child components', load: () => import('./demos/AppWithForm') },
+  app: { title: 'Sprint 2 · App + Router', load: () => import('./App') },
 };
 
-const DEFAULT_APP = 'sprint1';
+const DEFAULT_APP = 'app';
 
 const requested = new URLSearchParams(window.location.search).get('app') ?? DEFAULT_APP;
 const current = requested in apps ? requested : DEFAULT_APP;
