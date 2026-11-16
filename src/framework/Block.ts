@@ -35,13 +35,10 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
   }
 
   public setProps(props: Partial<Props>) {
-    let needUpdate = true;
-    Object.keys(props).forEach(newKey => {
-      if (Object.keys(this.props).find(key => key === newKey) 
-        && this.props[newKey as keyof Props] === props[newKey as keyof Props]) {
-        needUpdate = false;
-      }
-    });
+    // Re-render when at least one incoming prop differs from the current value.
+    const needUpdate = Object.keys(props).some(
+      key => this.props[key as keyof Props] !== props[key as keyof Props],
+    );
     if (needUpdate) {
       this.props = { ...this.props, ...props, __children: [], __refs: {} } as Props;
       this.render();
@@ -59,7 +56,7 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
 
   private unmountComponent() {
     if (this.domElement) {
-      this.children.reverse().forEach(child => child.unmountComponent());
+      [...this.children].reverse().forEach(child => child.unmountComponent());
 
       this.componentWillUnmount();
       this.removeListeners();
@@ -81,6 +78,19 @@ export default abstract class Block<Props extends BlockOwnProps = BlockOwnProps>
       if (typeof eventCallback === 'function' && this.domElement) {
         this.domElement.removeEventListener(eventName, eventCallback);
       }
+    }
+  }
+
+  public show(): void {
+    const el = this.element();
+    if (el) {
+      (el as HTMLElement).style.display = '';
+    }
+  }
+
+  public hide(): void {
+    if (this.domElement) {
+      (this.domElement as HTMLElement).style.display = 'none';
     }
   }
 

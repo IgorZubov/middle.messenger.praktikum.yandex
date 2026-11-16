@@ -3,9 +3,8 @@ import type { BlockOwnProps } from '../../framework/Block';
 
 interface CreatePageProps extends BlockOwnProps {
   questions?: string[];
-  createButtonEnabled?: boolean;
-  onAddQuestion?: (question: string) => void;
-  onCreateQuestionnaire?: () => void;
+  createButtonDisabled?: boolean;
+  onCreateQuestionnaire?: (questions: string[]) => void;
   onNavigate?: (path: string) => void;
 }
 
@@ -23,10 +22,19 @@ export default class CreatePage extends Block<CreatePageProps> {
           {{/each}}
         </ul>
       {{/if}}
-      {{Button id="create-questionnaire" text="Create Questionnaire" disabled=createButtonEnabled}}
+      {{Button id="create-questionnaire" text="Create Questionnaire" disabled=createButtonDisabled}}
       {{Footer}}
     </div>
   `;
+
+  constructor(props: CreatePageProps = {}) {
+    super({ questions: [], createButtonDisabled: true, ...props });
+  }
+
+  private addQuestion(question: string) {
+    const questions = [...(this.props.questions ?? []), question];
+    this.setProps({ questions, createButtonDisabled: false });
+  }
 
   protected events = {
     click: (e: Event) => {
@@ -34,10 +42,13 @@ export default class CreatePage extends Block<CreatePageProps> {
       if (target.id === 'add-question') {
         const input = this.refs['questionInput'] as HTMLInputElement;
         if (input?.value.trim()) {
-          this.props.onAddQuestion?.(input.value.trim());
+          this.addQuestion(input.value.trim());
         }
       } else if (target.id === 'create-questionnaire') {
-        this.props.onCreateQuestionnaire?.();
+        const questions = this.props.questions ?? [];
+        if (questions.length > 0) {
+          this.props.onCreateQuestionnaire?.(questions);
+        }
       } else if (target.tagName === 'A' && target.href) {
         e.preventDefault();
         const url = new URL(target.href);

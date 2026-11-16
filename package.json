@@ -10,14 +10,18 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "start": "npm run build && node server.cjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
+    "jsdom": "^26.1.0",
     "postcss": "^8.4.40",
     "postcss-preset-env": "^9.6.0",
     "typescript": "~5.8.3",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "vitest": "^3.2.7"
   },
   "dependencies": {
     "express": "^4.19.2",

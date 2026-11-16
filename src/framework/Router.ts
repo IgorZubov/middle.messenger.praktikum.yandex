@@ -1,42 +1,95 @@
-type RouteCallback = () => void;
+import Route from './Route';
+import type { BlockClass } from './Route';
+import type { BlockOwnProps } from './Block';
 
-interface Route {
-  path: string;
-  callback: RouteCallback;
-}
+type NotFoundCallback = (pathname: string) => void;
 
 export default class Router {
-  private routes: Route[] = [];
-  private notFoundCallback?: RouteCallback;
+  private static instance: Router | null = null;
 
-  use(path: string, callback: RouteCallback): this {
-    this.routes.push({ path, callback });
+  private routes: Route<any>[] = [];
+
+  private history: History = window.history;
+
+  private currentRoute: Route<any> | null = null;
+
+  private rootQuery = '#app';
+
+  private notFoundCallback: NotFoundCallback | null = null;
+
+  constructor(rootQuery = '#app') {
+    if (Router.instance) {
+      return Router.instance;
+    }
+
+    this.rootQuery = rootQuery;
+    Router.instance = this;
+  }
+
+  use<P extends BlockOwnProps>(pathname: string, block: BlockClass<P>, blockProps?: P): this {
+    const route = new Route<P>(pathname, block, { rootQuery: this.rootQuery, blockProps });
+    this.routes.push(route);
     return this;
   }
 
-  onNotFound(callback: RouteCallback): this {
+  /** Called when the current pathname has no registered route. */
+  onNotFound(callback: NotFoundCallback): this {
     this.notFoundCallback = callback;
     return this;
   }
 
+  private handlePopState = () => {
+    this.onRoute(window.location.pathname);
+  };
+
   start(): void {
-    window.addEventListener('popstate', () => this.resolve());
-    this.resolve();
+    // Removing first keeps a single handler if start() is called twice.
+    window.removeEventListener('popstate', this.handlePopState);
+    window.addEventListener('popstate', this.handlePopState);
+
+    this.onRoute(window.location.pathname);
   }
 
-  go(path: string): void {
-    window.history.pushState({}, '', path);
-    this.resolve();
+  /** Stops listening to history changes. */
+  stop(): void {
+    window.removeEventListener('popstate', this.handlePopState);
   }
 
-  private resolve(): void {
-    const currentPath = window.location.pathname;
-    const route = this.routes.find((r) => r.path === currentPath);
+  go(pathname: string): void {
+    this.history.pushState({}, '', pathname);
+    this.onRoute(pathname);
+  }
 
-    if (route) {
-      route.callback();
-    } else if (this.notFoundCallback) {
-      this.notFoundCallback();
+  /** Like go(), but replaces the current history entry (useful for redirects). */
+  replace(pathname: string): void {
+    this.history.replaceState({}, '', pathname);
+    this.onRoute(pathname);
+  }
+
+  back(): void {
+    this.history.back();
+  }
+
+  forward(): void {
+    this.history.forward();
+  }
+
+  getRoute(pathname: string): Route<any> | undefined {
+    return this.routes.find(route => route.match(pathname));
+  }
+
+  private onRoute(pathname: string): void {
+    const route = this.getRoute(pathname);
+    if (!route) {
+      this.notFoundCallback?.(pathname);
+      return;
     }
+
+    if (this.currentRoute && this.currentRoute !== route) {
+      this.currentRoute.leave();
+    }
+
+    this.currentRoute = route;
+    route.render();
   }
 }
